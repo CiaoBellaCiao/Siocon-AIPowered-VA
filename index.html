@@ -236,4 +236,243 @@ export default function App() {
       <Footer />
     </div>
   );
+}import React, { useState } from 'react';
+import { Bot, Users, DollarSign, Clock, Zap, CheckCircle, ArrowRight, Menu, X } from 'lucide-react';
+
+// --- Utility Components ---
+
+/**
+ * Responsive Feature Card
+ */
+const FeatureCard = ({ icon: Icon, title, description }) => (
+  <div className="bg-white/50 dark:bg-slate-850/50 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200/50 dark:border-slate-800 flex flex-col h-full">
+    <div className="text-blue-500 dark:text-teal-400 mb-4">
+      <Icon className="w-10 h-10 p-2 bg-blue-100/70 dark:bg-teal-900/40 rounded-lg" />
+    </div>
+    <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-50">{title}</h3>
+    <p className="text-slate-600 dark:text-slate-300 flex-grow">{description}</p>
+  </div>
+);
+
+/**
+ * Primary Call-to-Action Button
+ */
+const PrimaryButton = ({ text, onClick }) => (
+  <button
+    onClick={onClick}
+    className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white bg-blue-600 rounded-full shadow-lg shadow-blue-500/50 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 active:scale-100 focus:outline-none focus:ring-4 focus:ring-blue-500/50 dark:bg-teal-500 dark:hover:bg-teal-600 dark:shadow-teal-500/40 dark:focus:ring-teal-500/50"
+  >
+    {text}
+    <ArrowRight className="w-5 h-5 ml-2" />
+  </button>
+);
+
+// --- Main Layout Components ---
+
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCtaClick = () => {
+    // In a production app, this would use a router or native scroll
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-850/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        {/* Logo/Brand */}
+        <a href="#" className="flex items-center space-x-2 text-2xl font-bold text-slate-900 dark:text-slate-50">
+          <Bot className="w-8 h-8 text-blue-600 dark:text-teal-400" />
+          <span>Siocon AI</span>
+        </a>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex space-x-8 items-center">
+          <a href="#features" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors">Features</a>
+          <a href="#pricing" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors">Pricing</a>
+          <a href="#contact" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors">Contact</a>
+          <PrimaryButton text="Get Started" onClick={handleCtaClick} />
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`md:hidden ${isOpen ? 'block' : 'hidden'} bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-850`}>
+        <nav className="flex flex-col p-4 space-y-3">
+          <a href="#features" className="py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors" onClick={() => setIsOpen(false)}>Features</a>
+          <a href="#pricing" className="py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors" onClick={() => setIsOpen(false)}>Pricing</a>
+          <a href="#contact" className="py-2 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-teal-400 transition-colors" onClick={() => setIsOpen(false)}>Contact</a>
+          <div className="pt-2"><PrimaryButton text="Sign Up Now" onClick={handleCtaClick} /></div>
+        </nav>
+      </div>
+    </header>
+  );
+};
+
+const HeroSection = () => {
+  const handleCtaClick = () => {
+    // Scroll to the pricing section
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <section className="py-20 md:py-32 text-center overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Tagline */}
+        <p className="inline-flex items-center px-4 py-1 text-sm font-medium text-blue-600 dark:text-teal-400 bg-blue-100/70 dark:bg-teal-900/40 rounded-full mb-4">
+          <Zap className="w-4 h-4 mr-2" />
+          The Future of Remote Work is Here
+        </p>
+
+        {/* Headline */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-tight">
+          Reliable Support from a Trained <span className="text-blue-600 dark:text-teal-400">3-Person AI VA Team</span>
+        </h1>
+
+        {/* Subtitle/Value Prop */}
+        <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
+          Scale your business with dedicated, AI-enhanced virtual assistants for just <strong className="font-bold text-blue-600 dark:text-teal-400">$10/hour.</strong> Efficiency, redundancy, and expertise guaranteed.
+        </p>
+
+        {/* CTA */}
+        <PrimaryButton text="Start Your 7-Day Trial" onClick={handleCtaClick} />
+        
+        {/* Trust/Guarantee Icons */}
+        <div className="mt-8 flex justify-center space-x-6 text-slate-500 dark:text-slate-400 text-sm">
+            <span className="flex items-center">
+                <CheckCircle className="w-4 h-4 mr-1 text-green-500" />
+                No long-term contracts
+            </span>
+            <span className="flex items-center">
+                <Clock className="w-4 h-4 mr-1 text-green-500" />
+                24/7 Availability
+            </span>
+            <span className="flex items-center">
+                <DollarSign className="w-4 h-4 mr-1 text-green-500" />
+                Billed Monthly
+            </span>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const FeaturesSection = () => (
+  <section id="features" className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900 border-t border-b border-slate-200 dark:border-slate-850">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-3">Why a 3-Person Team is Better</h2>
+        <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+          Siocon doesn't give you just one VA—you get a dedicated, cross-trained team supported by our proprietary AI tools.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        <FeatureCard
+          icon={Users}
+          title="Unmatched Reliability"
+          description="Never worry about sick days or vacation. If one team member is unavailable, the other two step in instantly. 100% task continuity guaranteed."
+        />
+        <FeatureCard
+          icon={Zap}
+          title="AI-Enhanced Efficiency"
+          description="Our VAs leverage custom AI workflows, meaning faster execution, fewer errors, and smarter problem-solving than traditional human-only VAs."
+        />
+        <FeatureCard
+          icon={DollarSign}
+          title="Cost-Effective Scaling"
+          description="Get the capacity of three VAs for one low price. This redundancy and power ensures you get maximum value and minimize operational friction."
+        />
+      </div>
+    </div>
+  </section>
+);
+
+const PricingSection = () => (
+    <section id="pricing" className="py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-3">Simple, Transparent Pricing</h2>
+            <p className="text-xl text-slate-600 dark:text-slate-300 mb-12">
+                All plans include your dedicated 3-person VA team and full access to our AI tools.
+            </p>
+
+            <div className="max-w-md mx-auto bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl border-4 border-blue-600 dark:border-teal-500">
+                <div className="flex justify-center items-center mb-4">
+                    <h3 className="text-4xl font-extrabold text-slate-900 dark:text-slate-50 mr-2">Pro Team</h3>
+                    <Users className="w-6 h-6 text-blue-600 dark:text-teal-400" />
+                </div>
+                
+                <p className="text-5xl font-extrabold text-slate-900 dark:text-slate-50 mb-2">
+                    $10<span className="text-2xl font-medium text-slate-500 dark:text-slate-400">/hour</span>
+                </p>
+                <p className="text-slate-500 dark:text-slate-400 mb-6">Billed monthly, starting at 100 hours/month.</p>
+
+                <div className="text-left space-y-3 mb-8">
+                    <div className="flex items-center text-slate-700 dark:text-slate-200">
+                        <CheckCircle className="w-5 h-5 mr-3 text-blue-500 dark:text-teal-400 flex-shrink-0" />
+                        <span>Dedicated 3-person VA team</span>
+                    </div>
+                    <div className="flex items-center text-slate-700 dark:text-slate-200">
+                        <CheckCircle className="w-5 h-5 mr-3 text-blue-500 dark:text-teal-400 flex-shrink-0" />
+                        <span>24/7 Monitoring & Task Hand-off</span>
+                    </div>
+                    <div className="flex items-center text-slate-700 dark:text-slate-200">
+                        <CheckCircle className="w-5 h-5 mr-3 text-blue-500 dark:text-teal-400 flex-shrink-0" />
+                        <span>Proprietary AI Workflow Tools</span>
+                    </div>
+                    <div className="flex items-center text-slate-700 dark:text-slate-200">
+                        <CheckCircle className="w-5 h-5 mr-3 text-blue-500 dark:text-teal-400 flex-shrink-0" />
+                        <span>Weekly Performance Reports</span>
+                    </div>
+                </div>
+
+                <PrimaryButton text="Secure Your Team" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} />
+            </div>
+        </div>
+    </section>
+);
+
+const Footer = () => (
+  <footer id="contact" className="py-8 bg-slate-950/90 dark:bg-slate-900/90 border-t border-slate-850 text-slate-400">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="flex justify-center items-center space-x-2 mb-4">
+        <Bot className="w-6 h-6 text-teal-400" />
+        <p className="text-xl font-bold text-slate-200">Siocon AI</p>
+      </div>
+      <p className="text-sm">
+        &copy; {new Date().getFullYear()} Siocon AI Solutions. All rights reserved.
+      </p>
+      <div className="mt-3 space-x-4 text-sm">
+        <a href="#" className="hover:text-teal-400 transition-colors">Privacy Policy</a>
+        <a href="#" className="hover:text-teal-400 transition-colors">Terms of Service</a>
+        <a href="mailto:support@siocon.ai" className="hover:text-teal-400 transition-colors">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+);
+
+// --- The Main App Component ---
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased transition-colors duration-200">
+      <Header />
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <PricingSection />
+      </main>
+      <Footer />
+    </div>
+  );
 }
+
